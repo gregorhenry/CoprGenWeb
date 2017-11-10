@@ -4,7 +4,7 @@ $('.form').find('input, textarea').on('keyup blur focus', function (e) {
         label = $this.prev('label');
 
     if (e.type === 'keyup') {
-        if ($this.val() === '') {
+        if ($this.val() === '') {su
             label.removeClass('active highlight');
         } else {
             label.addClass('active highlight');
