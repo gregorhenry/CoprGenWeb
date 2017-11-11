@@ -56,13 +56,13 @@ public class Profile {
         this.user = user;
     }
 
-    public static Profile from (ResultSet resultSet, UsersEntitys usersEntitys){
+    public static Profile from (ResultSet resultSet, UsersEntity usersEntity){
         Profile profile = new Profile();
         try {
             profile.setId(resultSet.getInt("ID_profile"))
                     .setDescription(resultSet.getString("Description"))
                     .setName(resultSet.getString("Name"))
-                    .setUser(usersEntitys.findById(resultSet.getInt("ID_user")));
+                    .setUser(usersEntity.findById(resultSet.getInt("ID_user")));
         } catch (SQLException e) {
             e.printStackTrace();
         }

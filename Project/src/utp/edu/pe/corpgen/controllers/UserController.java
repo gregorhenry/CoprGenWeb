@@ -4,6 +4,7 @@ package utp.edu.pe.corpgen.controllers;
 import utp.edu.pe.corpgen.models.User;
 import utp.edu.pe.corpgen.services.CoServices;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,9 @@ import java.util.List;
 
 @javax.servlet.annotation.WebServlet(name = "UserController", urlPatterns = "/login")
 public class UserController extends  javax.servlet.http.HttpServlet {
+
+    public static String URL_LOGIN ="/buenLogin.jsp";
+    public static String URL_PROFILE ="/profile.jsp";
 
     CoServices service;
     String url;
@@ -35,24 +39,30 @@ public class UserController extends  javax.servlet.http.HttpServlet {
         if (method.equals("POST")){
             if (action.equals("create")){
 
-                String name = request.getParameter("name");
-                String email = request.getParameter("email");
-                String lastname = request.getParameter("lastname");
-                String password = request.getParameter("password");
+                User user=new User();
+                user.setName(request.getParameter("name"));
+                user.setEmail(request.getParameter("email"));
+                user.setLastName(request.getParameter("lastName"));
+                user.setPassword(request.getParameter("password"));
                 List<User> users = service.findAllUsers();
-                User user = service.createUser(email,name,lastname,password);
-                url = "buenLogin.jsp";
+
+                String msg=service.createUser(user)? "Usuario creado con exito":"Ocurrio un error";
+
+                log(msg);
+                //User user = service.createUser(email,name,lastName,password);
+                url = URL_LOGIN;
 
             }
             else if (action.equals("login")){
-                String email = request.getParameter("mail");
-                String passwd = request.getParameter("pass");
-                boolean user = service.AuthenticationUser(email,passwd);
-                if (user){
-                    url = "buenLogin.jsp";
-                }else {
-                    url = "profile.jsp";
-                }
+
+                User user=new User();
+                user.setEmail(request.getParameter("mail"));
+                user.setPassword(request.getParameter("pass"));
+     //           String email = request.getParameter("mail");
+     //           String passwd = request.getParameter("pass");
+                String msg = service.AuthenticationUser(user) ? "Correcto" :"Error";
+                log(msg);
+                url=URL_PROFILE;
 
 
             }

@@ -1,7 +1,5 @@
 package utp.edu.pe.corpgen.models;
 
-import sun.dc.pr.PRError;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,13 +19,13 @@ public class ProfilesEntity extends BaseEntity {
     }
 
 
-    public Profile findById(int id, UsersEntitys usersEntitys){
+    public Profile findById(int id, UsersEntity usersEntity){
         return findByCriteria(
-                        String.format("WHERE ID_profile = '%s'", id), usersEntitys).get(0);
+                        String.format("WHERE ID_profile = '%s'", id), usersEntity).get(0);
 
     }
 
-    public List<Profile> findByCriteria(String criteria, UsersEntitys usersEntitys){
+    public List<Profile> findByCriteria(String criteria, UsersEntity usersEntity){
 
         try {
             ResultSet resultSet = getConnection()
@@ -36,7 +34,7 @@ public class ProfilesEntity extends BaseEntity {
                             .concat(criteria));
             List<Profile> profiles = new ArrayList<>();
             while (resultSet.next())
-                profiles.add(Profile.from(resultSet,usersEntitys));
+                profiles.add(Profile.from(resultSet, usersEntity));
 
             return profiles;
         } catch (SQLException e) {
@@ -45,8 +43,8 @@ public class ProfilesEntity extends BaseEntity {
         return null;
     }
 
-    public List<Profile> findAll(UsersEntitys usersEntitys) {
-        return findByCriteria("", usersEntitys);
+    public List<Profile> findAll(UsersEntity usersEntity) {
+        return findByCriteria("", usersEntity);
     }
 
     public boolean create(Profile profile)

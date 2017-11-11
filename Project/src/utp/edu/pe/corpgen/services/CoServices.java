@@ -1,6 +1,7 @@
 package utp.edu.pe.corpgen.services;
 
 import utp.edu.pe.corpgen.models.DbDataStore;
+import utp.edu.pe.corpgen.models.Products;
 import utp.edu.pe.corpgen.models.User;
 
 import javax.naming.InitialContext;
@@ -49,22 +50,54 @@ public class CoServices {
         this.dbDataStore = dbDataStore;
     }
 
+
+    /**User**/
     public User findUserById(int id){
         return dbDataStore.findUserById(id);
     }
 
-    public User createUser(String email,String name,String lastname, String passwd)
+    public boolean createUser(User user)
     {
-        return  dbDataStore.createUser(email,name,lastname,passwd);
+        return  dbDataStore.createUser(user);
     }
-    public List<User> findAllUsers(){return dbDataStore.findAllUser();}
-
-    public boolean AuthenticationUser(String email, String passw){
-        return dbDataStore.AuthenticationUser(email,passw);
+    public List<User> findAllUsers(){
+        return dbDataStore.findAllUser();
     }
 
-    public boolean updateUser(int id,String email,String name,String lastname, String passwd ){
+    public boolean AuthenticationUser(String email, String password){
+        return dbDataStore.AuthenticationUser(email,password);
+    }
 
-        return dbDataStore.updateUser(id,email,name,lastname,passwd);
+    /**=========================Se necesita comprobar========================*/
+    public boolean AuthenticationUser(User user){
+        return dbDataStore.AuthenticationUser(user);
+    }
+    /**======================================================================*/
+    public boolean updateUser(User user){
+
+        return dbDataStore.updateUser(user);
+    }
+
+    /**Product**/
+
+    public List<Products> findAllProducts(){
+        return dbDataStore.findAllProducts();
+    }
+
+    public Products findProductsById(int id){
+        return dbDataStore.findProductsById(id);
+    }
+
+
+    public  Products createProduct(Products products){
+        return dbDataStore.createProduct(products);
+    }
+
+    public boolean updateProduct(Products products){
+        return dbDataStore.updateProduct(products);
+    }
+
+    public boolean dropProduct(Products products){
+        return dbDataStore.dropProduct(products);
     }
 }

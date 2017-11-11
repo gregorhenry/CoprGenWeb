@@ -1,6 +1,5 @@
 package utp.edu.pe.corpgen.models;
 
-import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -9,16 +8,16 @@ public class User {
     private int id;
     private String email;
     private String name;
-    private String lastNa;
-    private String passwd;
+    private String lastName;
+    private String password;
 
 
-    public User(int id, String email, String name, String lastNa, String passwd) {
+    public User(int id, String email, String name, String lastName, String password) {
         this.id = id;
         this.email = email;
         this.name = name;
-        this.lastNa = lastNa;
-        this.passwd = passwd;
+        this.lastName = lastName;
+        this.password = password;
     }
 
     public User() {
@@ -42,12 +41,12 @@ public class User {
         return this;
     }
 
-    public String getLastNa() {
-        return lastNa;
+    public String getLastName() {
+        return lastName;
     }
 
-    public User setLastNa(String lastNa) {
-        this.lastNa = lastNa;
+    public User setLastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 
@@ -60,12 +59,12 @@ public class User {
         return this;
     }
 
-    public String getPasswd() {
-        return passwd;
+    public String getPassword() {
+        return password;
     }
 
-    public User setPasswd(String passwd) {
-        this.passwd = passwd;
+    public User setPassword(String password) {
+        this.password = password;
         return this;
     }
 

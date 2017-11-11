@@ -6,8 +6,9 @@ import java.util.List;
 public class DbDataStore {
 
     private Connection connection;
-    private UsersEntitys user;
-    private ProfilesEntity profile;
+    private UsersEntity usersEntity;
+    private ProfilesEntity profilesEntity;
+    private ProductEntity productEntity;
 
     public DbDataStore(Connection connection){
         this.connection = connection;
@@ -25,63 +26,117 @@ public class DbDataStore {
         this.connection = connection;
     }
 
-    public Profile findProfielbyId(int id){
-        if (connection == null)return null;
-        return getProfile().findById(id,getUser());
-    }
+    
+    
+    /**User**/
 
-    public User findUserById(int id){
-        if (connection == null)return null;
-        return getUser().findById(id);
-    }
-
-    public List<User> findAllUser(){
-        return connection == null ? null: getUser().findAll();
-    }
-
-    public User createUser(String email,String name, String lastname, String passwd){
-            return connection == null ? null :
-                    getUser().create(email,name,lastname,passwd);
-    }
-
-    public boolean AuthenticationUser(String email, String passw){
-
-        return getUser().Authentication(email,passw);
-    }
-
-    public boolean updateUser(int id, String email, String name, String lastname, String passwd){
-        return connection == null ?
-                false :
-                getUser().update(id,email,name,lastname,passwd);
-    }
-
-    public  boolean updateUser(User user){
-        return updateUser(user.getId(),user.getEmail(),user.getName(),user.getLastNa(),user.getPasswd());
-
-    }
-
-    public boolean eraseUser(int id){
-        return connection == null ? null :
-                getUser().erase(id);
-    }
-
-
-
-    public UsersEntitys getUser() {
-        if (user == null){
-            user = new UsersEntitys();
-            user.setConnection(connection);
+    public UsersEntity getUsersEntity() {
+        if (usersEntity == null){
+            usersEntity = new UsersEntity();
+            usersEntity.setConnection(connection);
         }
-        return user;
+        return usersEntity;
     }
+    
 
+        /**Listas**/
 
-    public ProfilesEntity getProfile() {
-        if (profile == null){
-            profile = new ProfilesEntity();
-            profile.setConnection(connection);
+        public List<User> findAllUser(){
+            return connection == null ? null: getUsersEntity().findAll();
         }
-        return profile;
+
+
+        public User findUserById(int id){
+        if (connection == null)return null;
+        return getUsersEntity().findById(id);
+        }
+
+        /**DLM's**/
+            public boolean createUser(User user){
+                return connection == null ? false :
+                getUsersEntity().create(user);
+            }
+            public boolean AuthenticationUser(String email, String password){
+                return getUsersEntity().Authentication(email,password);
+            }
+/**============**/
+            public boolean AuthenticationUser(User user){
+                return getUsersEntity().Authentication(user);
+            }
+
+/**===========**/
+
+            public boolean updateUser(User user){
+                 return connection == null ? false : getUsersEntity().update(user);
+            }
+
+
+            public boolean eraseUser(int id){
+                    return connection == null ? false:getUsersEntity().eraseById(id);
+            }
+
+            public boolean eraseUser(User user){
+                return connection==null ? false : getUsersEntity().eraseById(user.getId());
+            }
+
+
+
+   
+
+    /**Profile**/
+
+    public Profile findProfileById(int id){
+        return connection == null? null:getProfilesEntity().findById(id, getUsersEntity());
     }
+
+    public ProfilesEntity getProfilesEntity() {
+        if (profilesEntity == null){
+            profilesEntity = new ProfilesEntity();
+            profilesEntity.setConnection(connection);
+        }
+        return profilesEntity;
+    }
+
+
+    /**Products**/
+
+    public ProductEntity getProductEntity(){
+        if(productEntity == null){
+            productEntity=new ProductEntity();
+            productEntity.setConnection(connection);
+        }
+        return productEntity;
+    }
+        /**Listas**/
+
+            public Products findProductsById(int id){
+                return  connection == null ? null : getProductEntity().findById(id);
+            }
+
+            public List<Products> findAllProducts(){
+                return connection == null ? null : getProductEntity().findAll();
+            }
+
+
+
+
+    /**DML's**/
+
+    public Products createProduct(Products products){
+        return connection == null ? null : getProductEntity().create(products);
+    }
+
+    public boolean updateProduct(int id ,String name,double price,String picture,String description){
+        return connection == null ? false : getProductEntity().update(id,name,price,picture,description);
+    }
+    public boolean updateProduct(Products products) {
+        return updateProduct(products.getId(),products.getName(),products.getPrice(),products.getPicture(),products.getDescription());
+    }
+
+    public boolean dropProduct(Products products){
+        return connection==null?false:getProductEntity().drop(products);
+    }
+
+
 
 }
